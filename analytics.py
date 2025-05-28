@@ -1,1 +1,0 @@
-# Code to compute returns, volatility, Sharpe Ratio

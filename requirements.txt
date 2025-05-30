@@ -6,3 +6,4 @@ yfinance
 streamlit
 PyPortfolioOpt
 scikit-learn
+plotly

@@ -5,3 +5,4 @@ numpy
 yfinance
 streamlit
 PyPortfolioOpt
+scikit-learn

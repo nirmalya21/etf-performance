@@ -46,3 +46,33 @@ allocation, leftover = da.lp_portfolio()
 st.subheader("💼 Discrete Allocation (for $10,000 investment)")
 st.write(allocation)
 st.markdown(f"**Unallocated Funds:** ${leftover:.2f}")
+
+import plotly.express as px
+
+# --- PIE CHART: Portfolio Weights ---
+st.subheader("📌 Portfolio Allocation Breakdown")
+
+# Convert weights to DataFrame
+weights_df = pd.DataFrame.from_dict(cleaned_weights, orient='index', columns=['Weight']).reset_index()
+weights_df.columns = ['ETF', 'Weight']
+fig_pie = px.pie(weights_df, names='ETF', values='Weight', title='Optimized Portfolio Weights')
+st.plotly_chart(fig_pie, use_container_width=True)
+
+# --- BAR CHART: Return vs Volatility ---
+st.subheader("📊 ETF Risk vs Expected Return")
+
+# Risk & return per ETF
+returns_per_etf = mean_historical_return(df)
+risk_per_etf = df.pct_change().std() * (252**0.5)  # Annualized volatility
+risk_return_df = pd.DataFrame({
+    'ETF': returns_per_etf.index,
+    'Expected Return': returns_per_etf.values,
+    'Volatility': risk_per_etf.values
+})
+
+fig_bar = px.bar(
+    risk_return_df.melt(id_vars='ETF', var_name='Metric', value_name='Value'),
+    x='ETF', y='Value', color='Metric', barmode='group',
+    title="Annualized Return vs Volatility per ETF"
+)
+st.plotly_chart(fig_bar, use_container_width=True)

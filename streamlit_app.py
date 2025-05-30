@@ -32,12 +32,7 @@ weights = ef.max_sharpe()
 cleaned_weights = ef.clean_weights()
 perf = ef.portfolio_performance(verbose=False)
 
-# Display weights and metrics
-st.markdown("**Weights:**")
-st.json(cleaned_weights)
-st.markdown(f"**Expected Annual Return:** {perf[0]:.2%}")
-st.markdown(f"**Annual Volatility:** {perf[1]:.2%}")
-st.markdown(f"**Sharpe Ratio:** {perf[2]:.2f}")
+
 
 # Discrete Allocation
 latest_prices = get_latest_prices(df)
@@ -57,6 +52,13 @@ weights_df = pd.DataFrame.from_dict(cleaned_weights, orient='index', columns=['W
 weights_df.columns = ['ETF', 'Weight']
 fig_pie = px.pie(weights_df, names='ETF', values='Weight', title='Optimized Portfolio Weights')
 st.plotly_chart(fig_pie, use_container_width=True)
+
+# Display weights and metrics
+st.markdown("**Weights:**")
+st.json(cleaned_weights)
+st.markdown(f"**Expected Annual Return:** {perf[0]:.2%}")
+st.markdown(f"**Annual Volatility:** {perf[1]:.2%}")
+st.markdown(f"**Sharpe Ratio:** {perf[2]:.2f}")
 
 # --- BAR CHART: Return vs Volatility ---
 st.subheader("📊 ETF Risk vs Expected Return")
